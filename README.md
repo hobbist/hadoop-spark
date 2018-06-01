@@ -29,3 +29,7 @@ steps for creating standalone spark cluster in multiple machines:-
 
 3)run spark-class org.apache.spark.deploy.worker.Worker spark://<master-ip>:<master-port> on worker node.
 
+
+
+
+Books Related to spark and big data https://github.com/liuchengxu/books
