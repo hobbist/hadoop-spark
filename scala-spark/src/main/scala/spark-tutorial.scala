@@ -1,4 +1,7 @@
-  import com.spark.apps.WordCount
+  import com.spark.apps.{ContactAudit, WordCount}
   object scalaTest extends App {
-  new WordCount().execute()
+  val start=System.currentTimeMillis()
+    new WordCount().execute()
+   new ContactAudit().execute()
+    println(s"time to complete all jobs ${System.currentTimeMillis()-start}")
   }
