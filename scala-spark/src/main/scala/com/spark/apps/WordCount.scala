@@ -1,7 +1,6 @@
 package com.spark.apps
 import java.io.File
 
-import com.spark.SparkEnvironment._
 import com.spark.writer.SparkFileReadWrite
 import org.apache.commons.io.FileUtils
 

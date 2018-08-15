@@ -1,6 +1,9 @@
 package com.spark.apps
 
-abstract class Job {
+import com.spark.SparkEnvironment
+
+abstract class Job extends SparkEnvironment{
+
   def execute():Unit
 
 }

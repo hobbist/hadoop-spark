@@ -2,7 +2,6 @@ package com.spark.apps
 
 import java.sql.Timestamp
 import org.apache.spark.sql.Row
-import com.spark.SparkEnvironment._
 import org.apache.spark.sql.expressions.Window
 import org.apache.spark.sql.functions._
 import org.apache.spark.sql.types._

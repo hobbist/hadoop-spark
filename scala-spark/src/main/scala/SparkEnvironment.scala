@@ -4,7 +4,7 @@ import java.util.Properties
 
 import org.apache.spark.{SparkConf, SparkContext}
 import org.apache.spark.sql.{SQLContext, SparkSession}
-object SparkEnvironment {
+trait SparkEnvironment {
   implicit val properties:Properties=new Properties()
   properties.load(new FileInputStream(new File(System.getProperty("user.dir")+"/scala-spark/src/main/resources/apps.properties")))
 
