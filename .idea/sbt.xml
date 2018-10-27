@@ -4,9 +4,14 @@
     <option name="linkedExternalProjectsSettings">
       <SbtProjectSettings>
         <option name="externalProjectPath" value="$PROJECT_DIR$/scala-spark" />
-        <option name="sbtVersion" value="0.13.13" />
+        <option name="modules">
+          <set>
+            <option value="$PROJECT_DIR$/scala-spark" />
+            <option value="$PROJECT_DIR$/scala-spark/project" />
+          </set>
+        </option>
+        <option name="sbtVersion" value="1.1.2" />
         <option name="useAutoImport" value="true" />
-        <option name="useOurOwnAutoImport" value="true" />
       </SbtProjectSettings>
     </option>
   </component>
