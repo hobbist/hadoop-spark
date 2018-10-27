@@ -2,8 +2,11 @@ package com.spark
 import java.io.{File, FileInputStream}
 import java.util.Properties
 
-import org.apache.spark.{SparkConf, SparkContext}
-import org.apache.spark.sql.{SQLContext, SparkSession}
+import org.apache.spark.{SparkConf}
+import org.apache.spark.sql.{SparkSession}
+import org.springframework.stereotype.Component
+
+
 trait SparkEnvironment {
   implicit val properties:Properties=new Properties()
   properties.load(new FileInputStream(new File(System.getProperty("user.dir")+"/scala-spark/src/main/resources/apps.properties")))
@@ -19,10 +22,11 @@ trait SparkEnvironment {
       setAppName("first scala spark app").set("spark.driver.host","127.0.0.1").set("spark.app.id","Console")
     conf
   }
-
   implicit val spark=getSparkEnvironment
   implicit val sc=spark.sparkContext
   implicit val sqlctx=spark.sqlContext
   implicit val conf=sc.getConf
-
 }
+
+@Component
+class SparkEnvironmentImpl extends SparkEnvironment

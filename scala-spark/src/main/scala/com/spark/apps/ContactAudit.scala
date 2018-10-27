@@ -1,14 +1,17 @@
 package com.spark.apps
 
 import java.sql.Timestamp
+
 import org.apache.spark.sql.Row
 import org.apache.spark.sql.expressions.Window
 import org.apache.spark.sql.functions._
 import org.apache.spark.sql.types._
 import org.joda.time.DateTime
 import jobUdfs._
-import scala.collection.mutable
+import org.springframework.stereotype.Component
 
+import scala.collection.mutable
+@Component
 class ContactAudit extends Job {
 
   override def execute(): Unit = {
@@ -17,7 +20,7 @@ class ContactAudit extends Job {
     val dt = DateTime.now()
     val windowSpec = Window.partitionBy().orderBy("last_modified_date")
     //step to create data,this can be any datasource
-    val rdd = sc.parallelize(Seq(Row(new Timestamp(dt.getMillis), "CR_1", "N", "removed", "system"),
+    val rdd = this.env.sc.parallelize(Seq(Row(new Timestamp(dt.getMillis), "CR_1", "N", "removed", "system"),
       Row(new Timestamp(dt.plusMinutes(5).getMillis), "CR_2", "Y", "applied", "kapil"),
       Row(new Timestamp(dt.plusMinutes(6).getMillis), "CR_1", "Y", "applied", "amit"),
       Row(new Timestamp(dt.plusMinutes(6).getMillis), "CR_1", "N", "removed", "amit"),
@@ -30,7 +33,7 @@ class ContactAudit extends Job {
     val tSchema = StructType(StructField("last_modified_date", TimestampType) :: StructField("added", ArrayType(StringType)) ::
       StructField("removed", ArrayType(StringType)) :: StructField("reason", StringType) :: StructField("updatedBy", StringType) :: Nil)
 
-    val df = spark.createDataFrame(rdd, initialSchema).persist()
+    val df = this.env.spark.createDataFrame(rdd, initialSchema).persist()
 
     var history = df.withColumn("added", lit(Array[String]())).withColumn("removed", lit(Array[String]()))
 
@@ -47,7 +50,7 @@ class ContactAudit extends Job {
       agg(("added", "collect_set"), ("removed", "collect_set"), ("reason", "max"), ("updatedBy", "max")).
       orderBy(history("last_modified_date"))
 
-    history = spark.createDataFrame(history.rdd.map(transform), tSchema)
+    history = this.env.spark.createDataFrame(history.rdd.map(transform), tSchema)
 
     history = history.withColumn("removedEnts", calculateRemovedEnts(history("added"), history("removed")))
     history = history.withColumn("currentEnts", history("added"))
